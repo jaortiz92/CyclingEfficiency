@@ -1,0 +1,15 @@
+# Data
+*xlsx
+*xlsm
+*csv
+
+# Images
+*JPG
+*png
+
+# Files
+*pdf
+
+#Folder
+*__pycache__*
+*ipynb_checkpoints*
