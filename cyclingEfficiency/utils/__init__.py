@@ -1,3 +1,3 @@
 from .constants import Constants
-from .path import Path
+from .paths import Paths
 from .utils import Utils
