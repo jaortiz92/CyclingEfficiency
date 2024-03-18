@@ -1,9 +1,6 @@
 import pandas as pd
-import numpy as np
-import os
 from datetime import datetime
 from pandas.core.frame import DataFrame
-from pandas.core.series import Series
 from pathlib import Path
 from .utils import Paths
 
@@ -26,7 +23,7 @@ class Reader():
                 pd.concat(
                     self.dfs, ignore_index=False
                 ),
-            'wight': self.read_weight_file()
+            'weight': self.read_weight_file()
         }
 
 
@@ -35,14 +32,17 @@ class Reader():
         """
         This method read a file and add columns if it needs.
 
-        Parameters:
-        file (Path): File's path to read
+        ### Parameters:
+        file (Path):
+            File's path to read
         
-        Returns:
+        ### Returns:
         DataFrame: Data like dataframe with new columns
         """
         df: DataFrame = pd.read_csv(file)
-        date: datetime = datetime.strptime(file.stem , '%Y_%m_%d_%H_%M_%S')
+        date_time: datetime = datetime.strptime(file.stem , '%Y_%m_%d_%H_%M_%S')
+        df['datetime'] = date_time
+        date: datetime = datetime.strptime(file.stem[:10] , '%Y_%m_%d')
         df['date'] = date
         return df
     
@@ -61,6 +61,6 @@ class Reader():
             names=['date', 'weight', 'weight_unit']
         )
         df['date'] = df['date'].apply(
-            lambda x: x[:10], '%Y-%m-%d'
+            lambda x: datetime.strptime(x[:10], '%Y-%m-%d')
         )
         return df

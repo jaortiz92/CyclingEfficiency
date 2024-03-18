@@ -4,3 +4,4 @@ from .utils import Paths
 from .utils import Utils
 from .visualization import Visualize
 from .reader import Reader
+from .clean import Clean
