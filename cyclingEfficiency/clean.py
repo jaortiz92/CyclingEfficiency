@@ -101,6 +101,11 @@ class Clean:
             (~df['weight'].isna())
         ].reset_index(drop=True)
 
+        #Add is_plain
+        df['is_plain'] = df['slope'].apply(
+            lambda x: 1 if x == 0 else 0
+        )
+
         #Clean variables without information
         columns_to_delete: list[str] = []
         for column in df.columns:
