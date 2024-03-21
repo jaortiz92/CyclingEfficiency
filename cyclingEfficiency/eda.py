@@ -34,7 +34,8 @@ class Eda:
         
         None
         """
-        self.data['w'] = self.data.apply(
+        data: DataFrame = self.data.copy()
+        data['w'] = data.apply(
             lambda x: Utils.generate_w(
                 slope=x['slope'],
                 mass=x['weight'] + self.bike_weight,
@@ -43,5 +44,9 @@ class Eda:
             axis=1
         )
 
-        self.data['w_hr'] = self.data['w'] / self.data['hr']
-        
+        data['w_hr'] = data['w'] / data['hr']
+        data['w_kg'] = data['w'] / data['weight']
+        data['w_kg_hr'] = data['w_kg'] / data['hr']
+        data['performanca_incicator'] = data['w_kg'] / data['zones']
+
+        self.data = data.copy()

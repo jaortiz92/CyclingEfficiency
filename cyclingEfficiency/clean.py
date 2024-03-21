@@ -103,7 +103,7 @@ class Clean:
 
         #Add is_plain
         df['is_plain'] = df['slope'].apply(
-            lambda x: 1 if x == 0 else 0
+            lambda x: 1 if x < 1 else 0
         )
 
         #Clean variables without information
