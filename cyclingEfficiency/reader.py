@@ -32,11 +32,13 @@ class Reader():
         """
         This method read a file and add columns if it needs.
 
-        ### Parameters:
+        Parameters:
+        -----------
         file (Path):
             File's path to read
         
-        ### Returns:
+        Returns:
+        --------
         DataFrame: Data like dataframe with new columns
         """
         df: DataFrame = pd.read_csv(file)
@@ -51,8 +53,11 @@ class Reader():
         This method read file about weight and prepare the data.
 
         Parameters:
+        -----------
+        None
 
         Returns:
+        --------
         DataFrame: Data like dataframe with new columns
         """
         df: DataFrame = pd.read_csv(

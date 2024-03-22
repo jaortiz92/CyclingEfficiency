@@ -8,22 +8,23 @@ from .utils import Constants
 
 class Clean:
     def __init__(
-            self, hr_max: int, kph_greater: float = 0, 
-            cad_greater: float = 0, hr_grater: float = 0, 
-            slope_greater_than_equal: float = 0, 
-            zone_grater_than_equal: int = 1, before: bool = False
+            self, hr_max: int, kph_greater: float, 
+            cad_greater_than_equal: float, hr_grater: float, 
+            slope_greater_than_equal: float, 
+            zone_grater_than_equal: int, before: bool
         ) -> None:
         """
         This class cleans the data
 
         Parameters:
+        -----------
 
         hr_max (int):
             heart frequency max
         kph_greater (float):
             Filter to kliometers per hour greater than
-        cad_greater (float):
-            Filter to cadence greater than
+        cad_greater_than_equal (float):
+            Filter to cadence greater than equal
         hr_grater (float):
             Filter to heart rate greater than
         slope_greater_than_equal (float):
@@ -36,7 +37,7 @@ class Clean:
         """
         self.hr_max = hr_max
         self.kph_greater: float = kph_greater
-        self.cad_greater: float = cad_greater
+        self.cad_greater_than_equal: float = cad_greater_than_equal
         self.hr_grater: float = hr_grater
         self.slope_greater_than_equal: float = slope_greater_than_equal
         self.zone_grater_than_equal: int = zone_grater_than_equal
@@ -55,11 +56,11 @@ class Clean:
         and create the new clean data
 
         Parameters:
-        
+        -----------
         None 
         
         Returns:
-        
+        --------
         None
         """
         data: dict[str, DataFrame] =  Reader().data
@@ -94,7 +95,7 @@ class Clean:
         # Filter data
         df = df[
             (df['kph'] > self.kph_greater) &
-            (df['cad'] > self.cad_greater) &
+            (df['cad'] >= self.cad_greater_than_equal) &
             (df['hr'] > self.hr_grater) &
             (df['slope'] >= self.slope_greater_than_equal) &
             (df['zones'] >= self.zone_grater_than_equal) &
@@ -129,8 +130,8 @@ class Clean:
         This method search the weight to the date closer to the
         date objetive.
 
-        ### Parameters:
-        
+        Parameters:
+        -----------
         date_to_search (Timestamp): 
             Date to search in df
         df_weight (DataFrame):
@@ -139,8 +140,8 @@ class Clean:
             Select if you want to search with dates before to
             the activity
         
-        ### Returns:
-        
+        Returns:
+        --------
         float: Weight found in dataframe
         """
         result: float = np.nan
@@ -165,13 +166,14 @@ class Clean:
         """
         This method search the zone to heart frequency.
 
-        ### Parameters:
+        Parameters:
+        -----------
         
         hr_to_search (float): 
             heart frequency to search in zones
                 
-        ### Returns:
-        
+        Returns:
+        --------
         int: zone found
         """
         flag: bool = True

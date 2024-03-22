@@ -4,6 +4,7 @@ from typing import List
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import scipy
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
 import os
@@ -97,3 +98,23 @@ class Utils():
                 index -= 1  
             result_cad_zones.append(result)
         return result_cad_zones
+    
+
+
+    @classmethod
+    def generate_sample_data(
+            cls, data: Series | list, samples: int = 1000,
+            bash_size: float = 60,
+            confidence_interval: float = 0.95,
+        ) -> list:
+        alpha = 1 - ((1 - confidence_interval) / 2 )
+        z = scipy.stats.norm.ppf(alpha)
+           
+        result = []
+        for _ in range(samples):
+            result.append(
+                np.random.choice(
+                    data, bash_size
+                ).mean()
+            )
+        return result
