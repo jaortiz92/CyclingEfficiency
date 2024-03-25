@@ -113,8 +113,10 @@ class Utils():
         result = []
         for _ in range(samples):
             result.append(
-                np.random.choice(
-                    data, bash_size
-                ).mean()
+                float(
+                    np.random.choice(
+                        data, bash_size
+                    ).mean()
+                )
             )
         return result
