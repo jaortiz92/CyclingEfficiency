@@ -6,3 +6,4 @@ from .visualization import Visualize
 from .reader import Reader
 from .clean import Clean
 from .eda import Eda
+from .models import Model

@@ -90,9 +90,6 @@ class CyclingEfficiency:
         ).data
 
         samples_list: list = []
-        samples_all: list = []
-        samples_plain: list = []
-        samples_hill: list = []
         zones: ndarray = data['cad_zone'].unique()
         zones.sort()
         bash_size: int = self.bash_size
@@ -139,5 +136,6 @@ class CyclingEfficiency:
                 'all', 'plain', 'hill'
             ]
         )
-
+        self.data: DataFrame = data.copy()
+        self.cad_zones: ndarray = self.samples['cad_zone'].unique()
         

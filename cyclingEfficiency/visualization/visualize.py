@@ -1,8 +1,10 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pandas.core.frame import DataFrame
+from pandas.core.series import Series
 from matplotlib.axes._axes import Axes
 from matplotlib.ticker import FuncFormatter
+from numpy import ndarray
 
 class Visualize:
     @classmethod
@@ -61,4 +63,42 @@ class Visualize:
         plt.title('Hist {} vs {}'.format(
             x.upper(), y.upper()
         ))
+        plt.show()
+
+    @classmethod
+    def graph_model(
+            cls, data: DataFrame, X: DataFrame, 
+            y_pred: Series, variable: str, 
+            cad_zone: ndarray 
+        ) -> None:
+        cad_zone.sort()
+
+        plt.figure(figsize=(10, 7))
+        graph = sns.scatterplot(
+            data=data,
+            x='cad_zone_num',
+            y=variable,
+            label='y_test',
+            color='#3333CC'
+        )
+
+        graph.set_xticks(
+            range(1, len(cad_zone) + 1),
+            cad_zone
+        )
+
+        graph.set_xticklabels(
+            graph.get_xticklabels(), rotation=45,
+            horizontalalignment='right'
+        )
+            
+        graph = plt.plot(
+            X['cad_zone_num'],
+            y_pred,
+            label='y_pred',
+            color='#CC3333'
+        )
+
+        plt.legend()
+        plt.title('Scatter {} Vs ZONE CAD'.format(variable.upper()))
         plt.show()
