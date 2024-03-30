@@ -8,6 +8,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
 from pandas.core.frame import DataFrame
 from ..cyclingEfficiency import CyclingEfficiency
+from ..visualization import Visualize
 
 class Model:
     def __init__(
@@ -153,6 +154,14 @@ class Model:
                 self.cad_zone_max_plain,
         ))
 
+        Visualize.graph_model(
+            self.data_test_plain, 
+            self.X_plain, 
+            self.y_pred_plain, 
+            variable, 
+            self.cyclingEfficiency.cad_zones
+        )
+
     def fit_hill(self, degree: int = 1)-> None:
         """
         This method fit model hill and save results
@@ -224,3 +233,11 @@ class Model:
                 self.cad_zone_max_name_hill[4:],
                 self.cad_zone_max_hill,
         ))
+
+        Visualize.graph_model(
+            self.data_test_hill, 
+            self.X_hill, 
+            self.y_pred_hill, 
+            variable, 
+            self.cyclingEfficiency.cad_zones
+        )

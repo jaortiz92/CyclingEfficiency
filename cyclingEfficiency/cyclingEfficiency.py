@@ -46,7 +46,7 @@ class CyclingEfficiency:
         bash_size (float):
             Select size tu bash for sample
         """
-        self.hr_max = hr_max
+        self.hr_max: int = hr_max
         self.bike_weight: float = bike_weight
         self.cad_min: int = cad_min
         self.cad_max: int = cad_max
