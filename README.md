@@ -61,3 +61,7 @@ El rango de cadencia promedio mas eficiente en llano es 85-89 y puede generar un
 El rango de cadencia promedio mas eficiente en montaña es 60-64 y puede generar un promedio de eficiencia de 1.4317
 ```
 ![Graph Plain](./reports/model_hill_graph)
+
+## View the process
+If you want to look the whole process of how I got to the construction of these models, you can enter the notebook folder and see step by step the whole development
+![Notebook image](./reports/notebook_image)
