@@ -7,6 +7,7 @@ from matplotlib.ticker import FuncFormatter
 from numpy import ndarray
 
 class Visualize:
+    plt.style.use('seaborn-v0_8')
     @classmethod
     def hist_one_variable(
             cls, df: DataFrame, column: str,

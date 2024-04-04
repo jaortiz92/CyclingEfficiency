@@ -37,7 +37,7 @@ class Model:
         cad_step (int):
             Step to range in cadence zone
         kph_greater (float):
-            Filter to kliometers per hour greater than
+            Filter to kilometers per hour greater than
         hr_grater (float):
             Filter to heart rate greater than
         slope_greater_than_equal (float):
