@@ -50,7 +50,7 @@ Soy ciclista amateur, siempre he querido responder la siguiente pregunta: ¿Soy 
 ```bash
 python main.py
 ```
-After you ran the last code, you must wait a few secounds while it analyzes the information. when it finishes, it will show you a graph with one of the models and in the terminal the result. When you close that graph, the program will show the result of the other model
+After you ran the last code, you must wait a few secounds while it analyzes the information. when it finishes, it will show you a graph with one of the models and in the terminal the result. When you close that graph, the program will show the result of the other model.
 ### Example
 ```bash
 El rango de cadencia promedio mas eficiente en llano es 85-89 y puede generar un promedio de eficiencia de 1.3521
@@ -63,5 +63,6 @@ El rango de cadencia promedio mas eficiente en montaña es 60-64 y puede generar
 ![Graph Plain](./reports/model_hill_graph)
 
 ## View the process
-If you want to look the whole process of how I got to the construction of these models, you can enter the notebook folder and see step by step the whole development
+If you want to look the whole process of how I got to the construction of these models, you can enter the notebook folder and see step by step the whole development.
+
 ![Notebook image](./reports/notebook_image)
