@@ -1,5 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
 from matplotlib.axes._axes import Axes
@@ -74,6 +75,10 @@ class Visualize:
         ) -> None:
         cad_zone.sort()
 
+        indicator_max: float = y_pred.max()
+        cad_zone_max_index: int = np.argmax(y_pred)
+        cad_zone_max_name: str = cad_zone[cad_zone_max_index]
+
         plt.figure(figsize=(10, 7))
         graph = sns.scatterplot(
             data=data,
@@ -81,6 +86,14 @@ class Visualize:
             y=variable,
             label='y_test',
             color='#3333CC'
+        )
+
+        graph.text(
+            cad_zone_max_index + 1.15,
+            indicator_max,
+            '{} = {:.2f}'.format(
+                cad_zone_max_name[4:], indicator_max
+            )
         )
 
         graph.set_xticks(
@@ -93,11 +106,20 @@ class Visualize:
             horizontalalignment='right'
         )
             
-        graph = plt.plot(
+        plt.plot(
             X['cad_zone_num'],
             y_pred,
             label='y_pred',
             color='#CC3333'
+        )
+
+        plt.scatter(
+            cad_zone_max_index + 1,
+            indicator_max,
+            s=100,
+            marker='o',
+            color='#33BB33',
+            label='best point'
         )
 
         plt.legend()
