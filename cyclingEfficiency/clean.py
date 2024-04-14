@@ -11,7 +11,8 @@ class Clean:
             self, hr_max: int, kph_greater: float, 
             cad_greater_than_equal: float, hr_grater: float, 
             slope_greater_than_equal: float, 
-            zone_grater_than_equal: int, before: bool
+            zone_grater_than_equal: int, body_weight: float, 
+            previous_weight: bool
         ) -> None:
         """
         This class cleans the data
@@ -31,8 +32,11 @@ class Clean:
             Filter to slope greater than equal
         zone_grater_than_equal (int):
             Filter to zone greater than equal
-        before (bool): 
-            Select if you want to search with dates before to 
+        body_weight (float) :
+            If there is not data with body weight. You can
+            add a constant weight       
+        previous_weight (bool): 
+            Select if you want to search with dates previous to 
             the activity, for default it searchs dates next 
         """
         self.hr_max = hr_max
@@ -41,12 +45,12 @@ class Clean:
         self.hr_grater: float = hr_grater
         self.slope_greater_than_equal: float = slope_greater_than_equal
         self.zone_grater_than_equal: int = zone_grater_than_equal
-        self.before: bool = before
+        self.body_weight: float = body_weight
+        self.previous_weight: bool = previous_weight
 
         self.zones: list[float] = []
         for zone in Constants.HEART_ZONES:
             self.zones.append(int(zone * hr_max))
-
         self.fit()
 
 
@@ -78,8 +82,9 @@ class Clean:
         )
 
         weight['weight'] = weight['date'].apply(
-            self.search_weight, df_weight=data['weight'], 
-            before=self.before
+            self.search_weight, df_weight=data['weight'],
+            body_weight=self.body_weight, 
+            previous_weight=self.previous_weight
         )
 
         df: DataFrame = pd.merge(
@@ -111,8 +116,9 @@ class Clean:
         columns_to_delete: list[str] = []
         for column in df.columns:
             if (
-                df[column].mean() == 0 or 
-                df[column].std() == 0
+                (df[column].mean() == 0 or 
+                df[column].std() == 0) and 
+                (column!='weight')
             ):
                 columns_to_delete.append(column)
         self.data: DataFrame = df.drop(
@@ -124,7 +130,7 @@ class Clean:
     def search_weight(
         self,
         date_to_search: Timestamp, df_weight: DataFrame,
-        before: bool
+        body_weight: float, previous_weight: bool
     ) -> float:
         """
         This method search the weight to the date closer to the
@@ -136,8 +142,8 @@ class Clean:
             Date to search in df
         df_weight (DataFrame):
             DateFrame with information of weight and its date
-        before (bool): 
-            Select if you want to search with dates before to
+        previous_weight (bool): 
+            Select if you want to search with dates previous_weight to
             the activity
         
         Returns:
@@ -145,18 +151,22 @@ class Clean:
         float: Weight found in dataframe
         """
         result: float = np.nan
-        if before:
-            df_result: DataFrame = df_weight[
-                df_weight['date']<=date_to_search
-            ]
-            if df_result.shape[0] > 0:
-                result = df_result.iloc[0,1]    
-        else: 
-            df_result: DataFrame = df_weight[
-                df_weight['date']>=date_to_search
-            ]
-            if df_result.shape[0] > 0:
-                result = df_result.iloc[-1,1]
+
+        if body_weight is None:
+            if previous_weight:
+                df_result: DataFrame = df_weight[
+                    df_weight['date']<=date_to_search
+                ]
+                if df_result.shape[0] > 0:
+                    result = df_result.iloc[0,1]    
+            else: 
+                df_result: DataFrame = df_weight[
+                    df_weight['date']>=date_to_search
+                ]
+                if df_result.shape[0] > 0:
+                    result = df_result.iloc[-1,1]
+        else:
+            result = body_weight    
         return result
     
 

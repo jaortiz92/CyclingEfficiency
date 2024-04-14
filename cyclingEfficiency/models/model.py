@@ -16,7 +16,8 @@ class Model:
             cad_min: int = 40, cad_max: int = 120, cad_step: int = 5,
             kph_greater: float = 0, hr_grater: float = 0, 
             slope_greater_than_equal: float = 0, 
-            zone_grater_than_equal: int = 1, before: bool = False,
+            zone_grater_than_equal: int = 1, body_weight: float = None,
+            previous_weight: bool = False,
             bash_size: float = 60 * 5, margen_result: float = 0.05
         ) -> None:
         """
@@ -44,8 +45,11 @@ class Model:
             Filter to slope greater than equal
         zone_grater_than_equal (int):
             Filter to zone greater than equal
-        before (bool): 
-            Select if you want to search with dates before to 
+        body_weight (float) :
+            If there is not data with body weight. You can
+            add a constant weight 
+        previous_weight (bool): 
+            Select if you want to search with dates previous to 
             the activity, for default it searchs dates next 
         bash_size (float):
             Select size tu bash for sample
@@ -61,7 +65,8 @@ class Model:
         self.hr_grater: float = hr_grater
         self.slope_greater_than_equal: float = slope_greater_than_equal
         self.zone_grater_than_equal: int = zone_grater_than_equal
-        self.before: bool = before
+        self.body_weight: float = body_weight
+        self.previous_weight: bool = previous_weight
         self.bash_size: int = bash_size
         self.margen_result: float = margen_result
 
@@ -75,7 +80,8 @@ class Model:
             hr_grater=hr_grater,
             slope_greater_than_equal=slope_greater_than_equal,
             zone_grater_than_equal=zone_grater_than_equal,
-            before=before,
+            body_weight=body_weight,
+            previous_weight=previous_weight,
             bash_size=bash_size
         )
 

@@ -12,7 +12,8 @@ def run():
         hr_grater=HR_GRATER,
         slope_greater_than_equal=SLOPE_GREATER_THAN_EQUAL,
         zone_grater_than_equal=ZONE_GRATER_THAN_EQUAL,
-        before=BEFORE,
+        body_weight=BODY_WEIGHT,
+        previous_weight=PREVIOUS_WEIGHT,
         bash_size=BASH_SIZE,
         margen_result=MARGEN_RESULT,
     )

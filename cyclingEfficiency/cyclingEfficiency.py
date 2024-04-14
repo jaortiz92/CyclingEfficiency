@@ -12,7 +12,8 @@ class CyclingEfficiency:
             cad_min: int = 40, cad_max: int = 120, cad_step: int = 5,
             kph_greater: float = 0, hr_grater: float = 0, 
             slope_greater_than_equal: float = 0, 
-            zone_grater_than_equal: int = 1, before: bool = False,
+            zone_grater_than_equal: int = 1, body_weight: float = None,
+            previous_weight: bool = False,
             bash_size: float = 60 * 5
         ) -> None:
         """
@@ -40,8 +41,11 @@ class CyclingEfficiency:
             Filter to slope greater than equal
         zone_grater_than_equal (int):
             Filter to zone greater than equal
-        before (bool): 
-            Select if you want to search with dates before to 
+        body_weight (float) :
+            If there is not data with body weight. You can
+            add a constant weight
+        previous_weight (bool): 
+            Select if you want to search with dates previous_weight to 
             the activity, for default it searchs dates next 
         bash_size (float):
             Select size tu bash for sample
@@ -55,7 +59,8 @@ class CyclingEfficiency:
         self.hr_grater: float = hr_grater
         self.slope_greater_than_equal: float = slope_greater_than_equal
         self.zone_grater_than_equal: int = zone_grater_than_equal
-        self.before: bool = before
+        self.body_weight: float = body_weight
+        self.previous_weight: bool = previous_weight
         self.bash_size: int = bash_size
         self.fit()
 
@@ -78,7 +83,8 @@ class CyclingEfficiency:
             hr_grater=self.hr_grater,
             slope_greater_than_equal=self.slope_greater_than_equal,
             zone_grater_than_equal=self.zone_grater_than_equal,
-            before=self.before            
+            body_weight=self.body_weight,
+            previous_weight=self.previous_weight            
         ).data
 
         data = Eda(
