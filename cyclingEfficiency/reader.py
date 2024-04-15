@@ -1,8 +1,11 @@
+import sys
 import pandas as pd
 from datetime import datetime
 from pandas.core.frame import DataFrame
 from pathlib import Path
 from .utils import Paths
+sys.path.append('..')
+from config import BODY_WEIGHT
 
 class Reader():
     def __init__(self) -> None:
@@ -18,12 +21,17 @@ class Reader():
             self.read_a_activity(file) for file in self.files
         ]
 
+        if BODY_WEIGHT is None:
+            weight: DataFrame = self.read_weight_file()
+        else:
+            weight: DataFrame = None
+
         self.data: dict[str, DataFrame] = {
             'activities': 
                 pd.concat(
                     self.dfs, ignore_index=False
                 ),
-            'weight': self.read_weight_file()
+            'weight': weight
         }
 
 
