@@ -8,7 +8,8 @@ from .utils import Constants, Utils
 class Eda:
     def __init__(
             self, data: DataFrame, bike_weight: float,
-            cad_min: int, cad_max: int, cad_step: int
+            cad_min: int, cad_max: int, cad_step: int,
+            with_watts: bool
         ) -> None:
         """
         This class add and transform information
@@ -27,12 +28,15 @@ class Eda:
             Value upper to use in the cadence
         cad_step (int):
             Step to range in cadence zone
+        with_watts (bool):
+            If you want to use the variable watts to use in de model 
         """
         self.data: DataFrame = data
         self.bike_weight: float = bike_weight
         self.cad_min: int = cad_min
         self.cad_max: int = cad_max
         self.cad_step: int = cad_step
+        self.with_watts: bool = with_watts
         self.add_variables()
 
 
@@ -58,6 +62,19 @@ class Eda:
             ),
             axis=1
         )
+
+        if self.with_watts:
+            data['dif_w'] = data[['watts', 'w']].apply(
+                lambda x: (x[0] - x[1]) / x[1] if x[0] != x[1] else 0,
+                axis=1
+            )
+
+            data = data[
+                (data['dif_w'] >= -1) &
+                (data['dif_w'] <= 1)
+            ].reset_index()
+
+            data['w'] = data['watts']
 
         data['w_hr'] = data['w'] / data['hr']
         data['w_kg'] = data['w'] / data['weight']

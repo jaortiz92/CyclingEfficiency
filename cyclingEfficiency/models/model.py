@@ -18,7 +18,8 @@ class Model:
             slope_greater_than_equal: float = 0, 
             zone_grater_than_equal: int = 1, body_weight: float = None,
             previous_weight: bool = False,
-            bash_size: float = 60 * 5, margen_result: float = 0.05
+            bash_size: float = 60 * 5, margen_result: float = 0.05,
+            with_watts: bool = False
         ) -> None:
         """
         This class processes the file and to generate the data to use
@@ -54,7 +55,9 @@ class Model:
         bash_size (float):
             Select size tu bash for sample
         margen_result (float):
-            Config percentage to marge in the dataframe final sample
+            Config percentage to margen in the dataframe final sample
+        with_watts (bool):
+            If you want to use the variable watts to use in de model
         """
         self.hr_max = hr_max
         self.bike_weight: float = bike_weight
@@ -69,6 +72,7 @@ class Model:
         self.previous_weight: bool = previous_weight
         self.bash_size: int = bash_size
         self.margen_result: float = margen_result
+        self.with_watts: bool = with_watts
 
         self.cyclingEfficiency: CyclingEfficiency = CyclingEfficiency(
             hr_max=hr_max,
@@ -82,7 +86,8 @@ class Model:
             zone_grater_than_equal=zone_grater_than_equal,
             body_weight=body_weight,
             previous_weight=previous_weight,
-            bash_size=bash_size
+            bash_size=bash_size,
+            with_watts=with_watts
         )
 
     def fit_plain(self, degree: int = 1)-> None:

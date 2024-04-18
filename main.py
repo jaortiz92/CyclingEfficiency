@@ -16,6 +16,7 @@ def run():
         previous_weight=PREVIOUS_WEIGHT,
         bash_size=BASH_SIZE,
         margen_result=MARGEN_RESULT,
+        with_watts=WITH_WATTS
     )
     model.fit_plain(degree=DEGREE_PLAIN)
     model.fit_hill(degree=DEGREE_HILL)

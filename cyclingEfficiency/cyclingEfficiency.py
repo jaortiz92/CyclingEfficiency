@@ -14,7 +14,7 @@ class CyclingEfficiency:
             slope_greater_than_equal: float = 0, 
             zone_grater_than_equal: int = 1, body_weight: float = None,
             previous_weight: bool = False,
-            bash_size: float = 60 * 5
+            bash_size: float = 60 * 5, with_watts: bool = False
         ) -> None:
         """
         This class processes the file and to generate the data to use
@@ -49,6 +49,8 @@ class CyclingEfficiency:
             the activity, for default it searchs dates next 
         bash_size (float):
             Select size tu bash for sample
+        with_watts (bool):
+            If you want to use the variable watts to use in de model
         """
         self.hr_max: int = hr_max
         self.bike_weight: float = bike_weight
@@ -62,6 +64,7 @@ class CyclingEfficiency:
         self.body_weight: float = body_weight
         self.previous_weight: bool = previous_weight
         self.bash_size: int = bash_size
+        self.with_watts: bool = with_watts
         self.fit()
 
     def fit(self)-> None:
@@ -84,7 +87,8 @@ class CyclingEfficiency:
             slope_greater_than_equal=self.slope_greater_than_equal,
             zone_grater_than_equal=self.zone_grater_than_equal,
             body_weight=self.body_weight,
-            previous_weight=self.previous_weight            
+            previous_weight=self.previous_weight,
+            with_watts=self.with_watts         
         ).data
 
         data = Eda(
@@ -92,7 +96,8 @@ class CyclingEfficiency:
             bike_weight=self.bike_weight,
             cad_min=self.cad_min,
             cad_max=self.cad_max,
-            cad_step=self.cad_step
+            cad_step=self.cad_step,
+            with_watts=self.with_watts
         ).data
 
         samples_list: list = []

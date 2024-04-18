@@ -12,7 +12,7 @@ class Clean:
             cad_greater_than_equal: float, hr_grater: float, 
             slope_greater_than_equal: float, 
             zone_grater_than_equal: int, body_weight: float, 
-            previous_weight: bool
+            previous_weight: bool, with_watts: bool
         ) -> None:
         """
         This class cleans the data
@@ -37,7 +37,9 @@ class Clean:
             add a constant weight       
         previous_weight (bool): 
             Select if you want to search with dates previous to 
-            the activity, for default it searchs dates next 
+            the activity, for default it searchs dates next
+        with_watts (bool):
+            If you want to use the variable watts to use in de model 
         """
         self.hr_max = hr_max
         self.kph_greater: float = kph_greater
@@ -47,6 +49,7 @@ class Clean:
         self.zone_grater_than_equal: int = zone_grater_than_equal
         self.body_weight: float = body_weight
         self.previous_weight: bool = previous_weight
+        self.with_watts: bool = with_watts
 
         self.zones: list[float] = []
         for zone in Constants.HEART_ZONES:
@@ -104,8 +107,33 @@ class Clean:
             (df['hr'] > self.hr_grater) &
             (df['slope'] >= self.slope_greater_than_equal) &
             (df['zones'] >= self.zone_grater_than_equal) &
-            (~df['weight'].isna())
+            (~df['weight'].isna()) &
+            ((df['lon'] != 0) & (df['lat'] != 0))
         ].reset_index(drop=True)
+
+        if self.with_watts:
+            df = df[
+                (df['watts'] > Constants.WATTS_GREATER) &
+                (df['watts'] < Constants.WATTS_LESS)
+            ].reset_index(drop=True)
+        
+        #Delete workouts indoor
+        same_location_list = set()
+        for i in df.index:
+            if i != 0:
+                if (df.loc[i, 'lon'] ==
+                    df.loc[i - 1, 'lon']
+                ) and (
+                    df.loc[i, 'lat'] == 
+                    df.loc[i - 1, 'lat']
+                ):
+                    same_location_list.add(i)
+                    same_location_list.add(i - 1)
+                    
+
+        df = df.drop(
+            index=same_location_list,
+        ).reset_index(drop=True)
 
         #Add is_plain
         df['is_plain'] = df['slope'].apply(
@@ -196,3 +224,5 @@ class Clean:
                 flag = False
             index -= 1            
         return result
+    
+   
